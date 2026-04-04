@@ -47,6 +47,6 @@ config, but CloudFront requires it to be set separately.
 
 ## Screenshots
 
-![Live site on CloudFront](/screenshots/cloudfront-live.png)
-![CloudFront distribution](/screenshots/cloudfront-distribution.png)
-![S3 bucket](/screenshots/s3-bucket.png)
+![Live site on CloudFront](./screenshots/cloudfront-live.png)
+![CloudFront distribution](./screenshots/cloudfront-distribution.png)
+![S3 bucket](./screenshots/s3-bucket.png)
