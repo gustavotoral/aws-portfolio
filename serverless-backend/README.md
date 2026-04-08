@@ -9,23 +9,8 @@ Integrated into a static portfolio site hosted on S3 + CloudFront.
 
 ## Architecture
 
-```
-Browser (CloudFront site)
-    │
-    │  POST /contact (JSON)
-    ▼
-API Gateway (HTTP API)
-    │
-    │  Trigger
-    ▼
-Lambda Function (Python 3.12)
-    │
-    │  send_email()
-    ▼
-SES (Simple Email Service)
-    │
-    ▼
-Inbox (beardeddominican@gmail.com)
+![Architecture](./screenshots/architecture-diagram.png)
+
 ```
 
 ---
@@ -46,10 +31,14 @@ Inbox (beardeddominican@gmail.com)
 ![SES verification](./screenshots/ses-verification.png)
 2. Created Lambda function (`contactFormHandler`) in Python 3.12
 ![Lambda function](./screenshots/lambda-function.png)
-4. Attached `AmazonSESFullAccess` IAM policy to the Lambda execution role
-5. Created HTTP API in API Gateway with `POST /contact` route pointing to Lambda
-6. Configured CORS on API Gateway (`Allow-Origin: *`, `Allow-Headers: content-type`, `Allow-Methods: POST`)
+3. Attached `AmazonSESFullAccess` IAM policy to the Lambda execution role
+![IAM Policy](./screenshots/iam-policy-attached.png)
+4. Created HTTP API in API Gateway with `POST /contact` route pointing to Lambda
+![API Gateway POST](./screenshots/cors-configured-correctly.png)
+5. Configured CORS on API Gateway (`Allow-Origin: *`, `Allow-Headers: content-type`, `Allow-Methods: POST`)
+![Configured CORS](./screenshots/cors-configured-correctly.png)
 7. Wired up the form in `index.html` to fetch the API endpoint on submit
+![Form Success](./screenshots/cors-configured-correctly.png)
 
 ---
 
