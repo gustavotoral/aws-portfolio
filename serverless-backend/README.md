@@ -11,37 +11,29 @@ Integrated into a static portfolio site hosted on S3 + CloudFront.
 
 ![Architecture](./screenshots/architecture-diagram.png)
 
-
 ---
 
 ## Services Used
 
-- **API Gateway** — HTTP API that exposes a public `POST /contact` endpoint
-- **Lambda** — Python function that receives the request and calls SES
-- **SES** — Sends the email to the verified recipient address
-- **IAM** — Role with `AmazonSESFullAccess` policy attached to the Lambda function
-- **S3 + CloudFront** — Hosts the frontend that calls the API (see static-website project)
+| Service | Role |
+|---|---|
+| **API Gateway** | HTTP API exposing `POST /contact` |
+| **Lambda** | Python 3.12 function that calls SES |
+| **SES** | Sends email to verified recipient |
+| **IAM** | Execution role with `AmazonSESFullAccess` |
+| **S3 + CloudFront** | Hosts the frontend (see static-website project) |
 
 ---
 
 ## Implementation
 
-1. Verified sender email identity in SES (sandbox mode)
+**1. Verified sender email in SES**
+
 ![SES verification](./screenshots/ses-verification.png)
-2. Created Lambda function (`contactFormHandler`) in Python 3.12
+
+**2. Created Lambda function**
+
 ![Lambda function](./screenshots/lambda-function.png)
-3. Attached `AmazonSESFullAccess` IAM policy to the Lambda execution role
-![IAM Policy](./screenshots/iam-policy-attached.png)
-4. Created HTTP API in API Gateway with `POST /contact` route pointing to Lambda
-![API Gateway POST](./screenshots/cors-configured-correctly.png)
-5. Configured CORS on API Gateway (`Allow-Origin: *`, `Allow-Headers: content-type`, `Allow-Methods: POST`)
-![Configured CORS](./screenshots/cors-configured-correctly.png)
-6. Wired up the form in `index.html` to fetch the API endpoint on submit
-![Form Success](./screenshots/contact-form-successful.png)
-
----
-
-## Lambda Function
 
 ```python
 import json
@@ -71,33 +63,48 @@ def lambda_handler(event, context):
     }
 ```
 
+**3. Attached IAM policy to Lambda execution role**
+
+![IAM policy](./screenshots/iam-policy-attached.png)
+
+**4. Created HTTP API in API Gateway with `POST /contact` route**
+
+![API Gateway](./screenshots/api-gateway-route.png)
+
+**5. Configured CORS**
+
+![CORS config](./screenshots/cors-configured-correctly.png)
+
+**6. Wired contact form in `index.html` to POST to the API endpoint**
+
+![Form success](./screenshots/contact-form-successful.png)
+
 ---
 
 ## Challenges & Lessons Learned
 
-**CORS error on form submit** — The browser was blocking the API response because
-API Gateway wasn't returning the correct CORS headers. Fixed by configuring CORS
-on the API Gateway HTTP API (`Allow-Origin: *`, `Allow-Headers: content-type`).
-Note: when CORS is configured at the API Gateway level, it overrides any CORS
-headers returned by Lambda — so the headers in the Lambda response are redundant
-but kept for clarity.
+**CORS error on form submit**
 
-![Form Error](./screenshots/form-error.png)
-![CORS Error](./screenshots/cors-not-configured.png)
+Browser was blocking the API response because API Gateway wasn't returning CORS headers.
 
-**Distribution ID vs domain name** — When automating deployments via AWS CLI,
-CloudFront invalidations require the Distribution ID (e.g. `EWQ0L2AO5RDW9`),
-not the CloudFront domain name. Using the domain name returns an error.
+![Form error](./screenshots/form-error.png)
+![CORS not configured](./screenshots/cors-not-configured.png)
 
-**SES sandbox mode** — By default SES only sends to verified email addresses.
-For a production use case, you would request SES production access to send
-to any recipient.
+Fixed by configuring CORS on the HTTP API (`Allow-Origin: *`, `Allow-Headers: content-type`, `Allow-Methods: POST`). Note: API Gateway-level CORS overrides any headers returned by Lambda — the Lambda headers are redundant but kept for clarity.
+
+**CloudFront Distribution ID vs domain name**
+
+`create-invalidation` requires the Distribution ID (e.g. `EWQ0L2AO5RDW9`), not the CloudFront domain name. Using the domain returns an error.
+
+**SES sandbox mode**
+
+By default SES only sends to verified addresses. Production use requires requesting SES production access.
 
 ---
 
 ## Deployment
 
-Updates to the frontend are deployed via AWS CloudShell with a single command:
+Updates deployed from AWS CloudShell with a single command:
 
 ```bash
 aws s3 cp index.html s3://gt-portfolio-2026/index.html && \
@@ -106,6 +113,6 @@ aws cloudfront create-invalidation --distribution-id EWQ0L2AO5RDW9 --paths "/*"
 
 ---
 
-## AWS Region
+## Region
 
 All services deployed in `us-east-1` (N. Virginia).
