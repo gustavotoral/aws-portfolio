@@ -11,7 +11,6 @@ Integrated into a static portfolio site hosted on S3 + CloudFront.
 
 ![Architecture](./screenshots/architecture-diagram.png)
 
-```
 
 ---
 
