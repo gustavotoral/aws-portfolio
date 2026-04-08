@@ -69,7 +69,7 @@ def lambda_handler(event, context):
 
 **4. Created HTTP API in API Gateway with `POST /contact` route**
 
-![API Gateway](./screenshots/api-gateway-route.png)
+![API Gateway](./screenshots/api-gateway.png)
 
 **5. Configured CORS**
 
