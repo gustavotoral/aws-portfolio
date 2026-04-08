@@ -82,6 +82,9 @@ Note: when CORS is configured at the API Gateway level, it overrides any CORS
 headers returned by Lambda — so the headers in the Lambda response are redundant
 but kept for clarity.
 
+![Form Error](./screenshots/form-error.png)
+![CORS Error](./screenshots/cors-not-configured.png)
+
 **Distribution ID vs domain name** — When automating deployments via AWS CLI,
 CloudFront invalidations require the Distribution ID (e.g. `EWQ0L2AO5RDW9`),
 not the CloudFront domain name. Using the domain name returns an error.
