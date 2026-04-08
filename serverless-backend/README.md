@@ -43,11 +43,13 @@ Inbox (beardeddominican@gmail.com)
 ## Implementation
 
 1. Verified sender email identity in SES (sandbox mode)
+![SES verification](./screenshots/ses-verification.png)
 2. Created Lambda function (`contactFormHandler`) in Python 3.12
-3. Attached `AmazonSESFullAccess` IAM policy to the Lambda execution role
-4. Created HTTP API in API Gateway with `POST /contact` route pointing to Lambda
-5. Configured CORS on API Gateway (`Allow-Origin: *`, `Allow-Headers: content-type`, `Allow-Methods: POST`)
-6. Wired up the form in `index.html` to fetch the API endpoint on submit
+![Lambda function](./screenshots/lambda-function.png)
+4. Attached `AmazonSESFullAccess` IAM policy to the Lambda execution role
+5. Created HTTP API in API Gateway with `POST /contact` route pointing to Lambda
+6. Configured CORS on API Gateway (`Allow-Origin: *`, `Allow-Headers: content-type`, `Allow-Methods: POST`)
+7. Wired up the form in `index.html` to fetch the API endpoint on submit
 
 ---
 
