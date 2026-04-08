@@ -36,8 +36,8 @@ Integrated into a static portfolio site hosted on S3 + CloudFront.
 ![API Gateway POST](./screenshots/cors-configured-correctly.png)
 5. Configured CORS on API Gateway (`Allow-Origin: *`, `Allow-Headers: content-type`, `Allow-Methods: POST`)
 ![Configured CORS](./screenshots/cors-configured-correctly.png)
-7. Wired up the form in `index.html` to fetch the API endpoint on submit
-![Form Success](./screenshots/cors-configured-correctly.png)
+6. Wired up the form in `index.html` to fetch the API endpoint on submit
+![Form Success](./screenshots/contact-form-successful.png)
 
 ---
 
